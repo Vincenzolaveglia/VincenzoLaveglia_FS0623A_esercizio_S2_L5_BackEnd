@@ -1,0 +1,41 @@
+1) Una SP parametrica che, ricevendo in input un anno, visualizzi l’elenco delle contravvenzioni effettuate in un quel determinato anno
+
+CREATE PROCEDURE VisualizzaContravvenzioniPerAnno
+    @Anno INT
+AS
+BEGIN
+    SELECT DataViolazione, IndirizzoViolazione, NominativoAgente, Importo, DecurtamentoPunti
+    FROM VERBALE
+    WHERE YEAR(DataViolazione) = @Anno;
+END;
+
+EXEC VisualizzaContravvenzioniPerAnno @Anno = '2023'; 
+
+
+2) Una SP parametrica che, ricevendo in input una data, visualizzi il totale dei punti decurtati in quella determinata data, 
+
+CREATE PROCEDURE VisualizzaTotalePuntiDecurtatiPerData
+    @DataViolazione DATE
+AS
+BEGIN
+    SELECT SUM(DecurtamentoPunti) AS TotalePuntiDecurtati
+    FROM VERBALE
+    WHERE DataViolazione = @DataViolazione;
+END;
+
+EXEC VisualizzaTotalePuntiDecurtatiPerData @DataViolazione = '2023-01-15'
+
+
+
+
+3) Una SP che consenta di eliminare un determinato verbale identificandolo con il proprio identificativo. 
+
+CREATE PROCEDURE EliminaVerbale
+    @IdVerbale INT
+AS
+BEGIN
+    DELETE FROM VERBALE
+    WHERE IdVerbale = @IdVerbale;
+END;
+
+EXEC EliminaVerbale @IdVerbale = 3
